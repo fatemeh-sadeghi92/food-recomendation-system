@@ -1,0 +1,523 @@
+!pip install durable_rules
+from durable.lang import *
+from durable.lang import ruleset, when_all, m, post, _main_host
+
+#---------------------------------------------------------------------------------------
+# Triggered by 'interests' fact
+# It gets triggered by the entered interest of food and the current age of the user. 
+#---------------------------------------------------------------------------------------
+
+if _main_host is not None:
+    _main_host._ruleset_directory.clear()
+    
+
+with ruleset('interests'):
+	
+	@when_all((m.interest == 'irani') & (m.age >= 2))
+	def irani(c):
+		c.assert_fact('appetizer',{'choice':'irani'})	
+		c.assert_fact('main meal',{'field':'irani'})
+		c.assert_fact('activities',{'club':'traditional music'})
+	
+	@when_all((m.interest == 'kebbab') & (m.age >= 2))
+	def kebbab(c):	
+		c.assert_fact('appetizer',{'choice': 'kebbab'}) 
+		c.assert_fact('main meal',{'field':'kebbab'})
+			
+		
+	@when_all((m.interest == 'tradition') & (m.age >= 3))
+	def tradition(c):
+		c.assert_fact('appetizer',{'choice':'tradition'})	
+		c.assert_fact('main meal',{'field':'tradition'})	
+
+	@when_all((m.interest == 'healthy_food') & (m.age >= 1))
+	def healthy_food(c):
+		c.assert_fact('appetizer',{'choice':'healthy_food'})	
+		c.assert_fact('main meal',{'field':'healthy_food'})
+		c.assert_fact('activities',{'club':'football'})	
+	
+	@when_all((m.interest == 'vegan') & (m.age >= 3))
+	def vegan(c):
+		c.assert_fact('appetizer',{'choice':'vegan'})
+		c.assert_fact('main meal',{'field':'vegan'})
+		c.assert_fact('activities',{'club':'design'})
+	
+	@when_all((m.interest == 'international') & (m.age >= 2))
+	def international(c):
+		c.assert_fact('appetizer',{'choice':'international'})	
+		c.assert_fact('main meal',{'field':'international'})
+		c.assert_fact('activities',{'club':'dance'})
+
+	@when_all((m.interest == 'fast_food') & (m.age >= 2))
+	def fast_food(c):
+		c.assert_fact('appetizer',{'choice':'fast_food'})	
+		c.assert_fact('main meal',{'field':'fast_food'})
+		c.assert_fact('activities',{'club':'design'})
+	
+	@when_all((m.interest == 'sea_food') & (m.age >= 3))
+	def sea_food(c):
+		c.assert_fact('main meal',{'field':'sea_food'})
+	
+	@when_all((m.interest == 'kids_food') & (m.age >= 1))
+	def kids_food(c):
+		c.assert_fact('appetizer',{'choice':'kids_food'})
+		c.assert_fact('main meal',{'field':'kids_food'})
+		c.assert_fact('activities',{'club':'football'})
+	
+	@when_all((m.interest == 'healthy_food') & (m.age >= 4))
+	def healthy_food(c):
+		c.assert_fact('appetizer',{'choice':'irani'})
+		c.assert_fact('main meal',{'field':'healthy_food'})
+		c.assert_fact('activities',{'club':'history'})
+	
+	@when_all((m.interest == 'kids_food') & (m.age >= 0))
+	def kids_food(c):
+		c.assert_fact('main meal',{'field':'kids_food'})
+		c.assert_fact('activities',{'club':'football'})
+	
+	
+	@when_all(+m.subject)
+	def output(c):
+		print('Fact: {0} {1} {2}'.format(c.m.subject, c.m.predicate, c.m.object))
+#------------------------------------------------------------------------------
+# working memory for user
+
+with ruleset('interests_new'):
+	
+	@when_all((m.interest_new == 'irani'))
+	def irani(j):
+		j.assert_fact('appetizer',{'choice':'irani'})	
+		j.assert_fact('main meal',{'field':'irani'})
+		j.assert_fact('activities',{'club':'traditional music'})
+	
+	@when_all((m.interest_new == 'kebbab'))
+	def kebbab(j):	
+		print('here 1')
+		# j.assert_fact('interests',{'interest':'kebbab'})
+		j.assert_fact('main meal',{'field':'kebbab'})
+			
+		
+	@when_all((m.interest_new == 'tradition'))
+	def tradition(j):
+		j.assert_fact('appetizer',{'choice':'tradition'})	
+		j.assert_fact('main meal',{'field':'tradition'})	
+
+	@when_all((m.interest_new == 'healthy_food'))
+	def healthy_food(j):
+		j.assert_fact('appetizer',{'choice':'healthy_food'})	
+		j.assert_fact('main meal',{'field':'healthy_food'})
+		j.assert_fact('activities',{'club':'football'})	
+	
+	@when_all((m.interest_new== 'vegan'))
+	def vegan(j):
+		j.assert_fact('appetizer',{'choice':'vegan'})
+		j.assert_fact('main meal',{'field':'vegan'})
+		j.assert_fact('activities',{'club':'rdesign'})
+	
+	@when_all((m.interest_new == 'international'))
+	def international(j):
+		j.assert_fact('appetizer',{'choice':'international'})	
+		j.assert_fact('main meal',{'field':'international'})
+		j.assert_fact('activities',{'club':'dance'})
+
+	@when_all((m.interest_new == 'fast_food'))
+	def fast_food(j):
+		j.assert_fact('appetizer',{'choice':'fast_food'})	
+		j.assert_fact('main meal',{'field':'fast_food'})
+		j.assert_fact('activities',{'club':'design'})
+	
+	@when_all((m.interest_new == 'sea_food'))
+	def sea_food(j):
+		j.assert_fact('main meal',{'field':'sea_food'})
+	
+	@when_all((m.interest_new == 'kids_food'))
+	def kids_food(j):
+		j.assert_fact('appetizer',{'choice':'kids_food'})
+		j.assert_fact('main meal',{'field':'kids_food'})
+		j.assert_fact('activities',{'club':'football'})
+	
+	@when_all((m.interest_new == 'healthy_food'))
+	def healthy_food(j):
+		j.assert_fact('appetizer',{'choice':'irani'})
+		j.assert_fact('main meal',{'field':'healthy_food'})
+		j.assert_fact('activities',{'club':'history'})
+	
+	@when_all((m.interest == 'kids_food'))
+	def kids_food(j):
+		j.assert_fact('main meal',{'field':'kids_food'})
+		j.assert_fact('activities',{'club':'football'})
+	
+	
+	@when_all(+m.subject)
+	def output(j):
+		print('Fact: {0} {1} {2}'.format(j.m.subject, j.m.predicate, j.m.object))
+
+#---------------------------------------------------------------------------------------
+# Triggered by 'appetizer' fact
+# It gets triggered by the choice of subject entered above and calling the respective 
+# appetizer available for that interest 
+#---------------------------------------------------------------------------------------
+
+with ruleset('appetizer'):
+	
+	@when_all((m.choice == 'irani'))
+	def irani(e):
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'bab ghanoosh'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'kashke bademjan'})
+
+	@when_all((m.choice == 'kebbab'))
+	def kebbab(e):
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'mushroom soup'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'salad'})
+	
+	@when_all((m.choice == 'tradition'))
+	def tradition(e):
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'boorani'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'aash'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'khoresht_mast'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'chicken soup'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'shole zard'})
+	
+	@when_all((m.choice == 'healthy_food'))
+	def healthy_food(e):
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'brookli_soup'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'barley_bread'})
+
+	@when_all((m.choice == 'vegan'))
+	def vegan(e):
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'dip'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'sweet potato canapes'})
+
+	@when_all((m.choice == 'international'))
+	def international(e):
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'canape'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'mushroom soup'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'chips & Dps'})
+	
+	@when_all((m.choice == 'fast_food'))
+	def fast_food(e):
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'onion rings'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'french fries'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'fried mushrum'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'garlic bread '})
+
+	@when_all((m.choice == 'sea_food'))
+	def sea_food(e):
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'fish taco'})
+		e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'salmon bites'})
+	
+	@when_all((m.choice == 'kids_food'))
+	def kids_food(e):
+			e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'french_fries'})
+			e.assert_fact({'subject':'Choose','predicate':'appetizer - ','object':'soup'})
+
+
+	@when_all(+m.subject)
+	def output(e):
+		print('Fact: {0} {1} {2}'.format(e.m.subject, e.m.predicate, e.m.object))
+
+#---------------------------------------------------------------------------------------
+# Triggered by 'main meal' fact
+# It gets triggered by the choice of subject entered above and calling the respective 
+# main food available for that interest 
+#---------------------------------------------------------------------------------------
+with ruleset('main meal'):
+	
+	@when_all((m.field == 'irani'))
+	def irani(d):
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'rice & khoresht'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'tahchin'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'gheyme nesar'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'kalam polo'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'dizi'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'loobia polo'})
+	
+	@when_all((m.field == 'kebbab'))
+	def kebbab(d):
+		print('here 2')
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'barg'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'chenjeh'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'koobideh'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'shishlik'})
+	
+	@when_all((m.field == 'tradition'))
+	def tradition(d):
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'chekdarmeh'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'mirza ghasemi'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'havij polo'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'ghelye mahi'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'koofteh'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'beryoon'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'kashk bademjoon'})
+
+	@when_all((m.field == 'healthy_food'))
+	def healthy_food(d):
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'cub salad'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'diet food '})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'steamed vegetable'})
+
+	@when_all((m.field == 'vegan'))
+	def vegan(d):
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'ravioly'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'tomato soup'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'tofu bowl'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'greek salad'})	
+	
+	@when_all((m.field == 'international'))
+	def international(d):
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'suchi'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'hummus'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'fatayer'})	
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'taco'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'pene alfredo'})
+		
+	@when_all((m.field == 'fast_food'))
+	def fast_food(d):
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'pizza'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'hamburger '})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'pasta'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'lasania'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'fried chicken'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':' hot dog'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'fihs & chips'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'taco'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'chicken nuggets'})
+	
+	@when_all((m.field == 'sea_food'))
+	def sea_food(d):
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'fish'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'shrimp '})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'labster'})
+
+	@when_all((m.field == 'kids_food'))
+	def kids_food(d):
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'kebbab tabei'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'kotlet'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'mini pizza'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'mini burger'})
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'spagetti'})	
+		d.assert_fact({'subject':'Choose','predicate':'main food - ','object':'samooseh'})	
+
+	@when_all(+m.subject)
+	def output(d):
+		print('Fact: {0} {1} {2}'.format(d.m.subject, d.m.predicate, d.m.object))
+
+#---------------------------------------------------------------------------------------
+# Triggered by 'activities' fact
+# It gets triggered by the choice of subject entered above and calling the respective 
+# technical clubs available for that interest 
+# Non technical clubs as extra curricular ciurses are being called by asking the 
+# further interest of the user.
+#---------------------------------------------------------------------------------------
+with ruleset('activities'):
+	
+	@when_all((m.club == 'fantasy'))
+	def fantasy(f):
+		f.assert_fact({'subject':'dessert','predicate':'Club','object':'harry potter :tiramisso'})
+	
+	@when_all((m.club == 'traditional music'))
+	def traditional_music(f):
+		f.assert_fact({'subject':'beverage','predicate':'Club','object':'tradition :- bidmeshk nastaran'})
+		f.assert_fact({'subject':'beverage','predicate':'Club','object':'tradition :- sinomon tea'})
+	
+	@when_all((m.club == 'hichhickes'))
+	def hichhickes(f):
+		f.assert_fact({'subject':'beverage','predicate':'Club','object':'traveler :- ice coffe'})
+	
+	@when_all((m.club == 'football'))
+	def football(f):
+		f.assert_fact({'subject':'beverage','predicate':'Club','object':'sport :- mohito'})
+
+	@when_all((m.club == 'design'))
+	def design(f):
+		f.assert_fact({'subject':'beverage','predicate':'Club','object':'Art :- late'})
+	
+	@when_all((m.club == 'fashion'))
+	def fashion(f):
+		f.assert_fact({'subject':'beverage','predicate':'Club','object':'style :- diet coke'})
+
+	@when_all((m.club == 'beauty'))
+	def beauty(f):
+		f.assert_fact({'subject':'beverage','predicate':'Club','object':'cosmetic :- saffron herbal tea'})
+	
+	@when_all((m.club == 'anime'))
+	def anime(f):
+		f.assert_fact({'subject':'beverage','predicate':'Club','object':'ghibli studio :- orange juice'})
+	
+	@when_all((m.club == 'blogging'))
+	def blogging(f):
+		f.assert_fact({'subject':'desert','predicate':'Club','object':'influenser :- apple pie'})
+	
+	@when_all((m.club == 'literature'))
+	def literature(f):
+		f.assert_fact({'subject':'dessert','predicate':'Club','object':'classic :- cinnamon cake, ice cream'})
+	
+	@when_all((m.club == 'theatre'))
+	def theatre(f):
+		f.assert_fact({'subject':'dessert','predicate':'Club','object':'musical :- roasted strawberry crumble'})
+	
+	@when_all((m.club == 'dance'))
+	def dance(f):
+		f.assert_fact({'subject':'dessert','predicate':'Club','object':'ballet :- baghlava'})	
+	
+	@when_all((m.club == 'programming'))
+	def programming(f):
+		f.assert_fact({'subject':'dessert','predicate':'Club','object':'coding:- cinnamon roll'})
+
+	@when_all((m.club == 'photography'))
+	def photography(f):
+		f.assert_fact({'subject':'dessert','predicate':'Club','object':'Art :- kanoofeh'})
+	
+	@when_all((m.club == 'finance'))
+	def finance(f):
+		f.assert_fact({'subject':'dessert','predicate':'Club','object':'Finnexia :- doogh goshfil'})
+
+	@when_all((m.club == 'history'))
+	def history(f):
+		f.assert_fact({'subject':'beverage','predicate':'Club','object':'tradition :- zoolbia bamieh'})
+	
+	@when_all((m.club == 'traveling'))
+	def traveling(f):
+		f.assert_fact({'subject':'dessert','predicate':'Club','object':'shiraz :- fallodeh shirazi '})
+	
+	@when_all((m.club == 'philosophy'))
+	def philosophy(f):
+		f.assert_fact({'subject':'dessert','predicate':'Club','object':'nihilism :- dark coffee'})
+
+	@when_all(+m.subject)
+	def output(f):
+		print('Fact: {0} {1} {2}'.format(f.m.subject, f.m.predicate, f.m.object))
+
+
+
+
+
+#Creating the dictionary which stores the indexes of the interest of main meal available
+interest_dict = {1:'irani', 2:'kebbab', 3:'tradition', 4:'healthy food', 5:'vegan', 6:'international', 7:'fast_food', 
+                 8:'sea_food', 9:'kids_food'}
+
+#Creating the dictionary which stores the indexes of  beverage interest of  activities available
+activity_dict = {1:'fantasy', 2:'blogging', 3:'literature', 4:'theatre', 5:'dance', 6:'programming', 7:'photography', 8:'finance', 9:'traveling', 10:'philosophy'}
+
+#Starting the program
+print('Designed By:-')
+print('Name - fatemeh sadeghi ')
+print('Welcome to food and beverage and dessert Guide System!')
+print('We will guide you the best food that can be chosen according to the your interest and age')
+print()
+print('enter 1 if your age is under 10\n enter 2 if your age is between 11- 18\n enter 3 if your age is between 20-40\n enter 4 if your age is greater than 40')
+
+#Input the age from the customers which should be between 1 to 4.
+while(True):
+	age = int(float(input('Enter your current age in the range of 1-4 ')))
+	if (age >= 1 and age <= 4) :
+		break
+	else:
+		print('You did not enter the correct age. Please enter again!')
+		print()
+
+print()
+print('Choose the best interest that suits you! Enter the index of the choice. ')
+print()
+print()
+
+#Printing the available interests for food and dessert 
+print('Available Interests for food and dessert: ')
+print()
+print(' 1. irani \n 2. kebbab \n 3. tradition \n 4. helathy food \n 5. vegan \n 6. international \n 7. fast food \n 8. sea food \n 9. kids food \n ')
+print()
+
+#Input the interest for the food by using the index of the choice.
+while(True):
+	choice_interest = int(float(input('Enter the index of the interest that suits you! ')))
+	if(choice_interest >= 1 and choice_interest <= 9):
+		interest_value = interest_dict[choice_interest]
+		break
+
+	else:
+		print("Invalid Choice Entered! Enter again! ")
+		print()
+
+print()
+print()
+
+#Printing the available interests for  - dessert 
+print('Available Interests for choosing beverage and dessert s: ')
+print()
+print(' 1. traditional music \n 2. hichhickes  \n 3. football  \n 4. design \n 5. fashion \n 6. beauty\n 7. anime \n 8. Finance \n 9. Art \n 10. history')
+print()
+flag = 0
+# pdb.set_trace()
+# #Input the interest for the beverage and dessert by using the index of the choice.
+# while(True):
+# 	choice_interest_1 = int(float(input('Enter the index of the interest that suits you! ')))
+# 	print()
+# 	if(choice_interest_1 >= 1 and choice_interest_1 <= 10):
+# 		interest_value_1 = activity_dict[choice_interest_1]
+# 		print()
+# 		print('Displaying the food and beverage and dessert! ')
+# 		print()
+# 		#Calling the food facts on the basis of input by the customers 
+# 		try:
+# 			assert_fact('interests', {'interest':interest_value, 'age':age}) 
+# 		except BaseException as e:
+# 			flag = 1
+
+# 		if (flag == 1):
+# 			flag = 0
+# 			print('Your age does not satify the criteria!')
+# 			choice_interest_new = int(input('Your choice: '))
+# 			if(choice_interest_new >= 1 and choice_interest_new <= 9):
+# 				interest_value = interest_dict[choice_interest_new]
+# 				# try:
+# 				assert_fact('interests_new', {'interest_new':interest_value})
+# 				# except BaseException as e:
+# 					# print('error!')
+
+		
+# 		#Calling the  activity facts on the basis of input by the customer		
+# 	try:
+# 			assert_fact('activities', {'club':interest_value_1})
+
+# 	except BaseException as e :
+# 			print('Your Interest does not satisfy the beverage and dessert in IIITD!' )
+	 
+# 	break 
+	#else:
+		#print("Invalid Choice Entered! Enter again! ")
+		#print()
+	
+while(True):
+	choice_interest_1 = int(float(input('Enter the index of the interest that suits you! ')))
+	print()
+	if(choice_interest_1 >= 1 and choice_interest_1 <= 10):
+		interest_value_1 = activity_dict[choice_interest_1]
+		print()
+		print('Displaying the foods and the  Activities Club! ')
+		print()
+		#Calling the main meal facts on the basis of input by the customer
+		try:
+			assert_fact('interests', {'interest':interest_value, 'age':age})
+
+		except BaseException as e:
+			print('Your age does not satisfy the criteria for your food choise based on your Interest!' )
+			choice_interest_new = int(input('Your choice: '))
+			if(choice_interest_new >= 1 and choice_interest_new <= 9):
+				interest_value = interest_dict[choice_interest_new]
+				# try:
+				assert_fact('interests_new', {'interest_new':interest_value})
+		
+		#Calling the activity facts on the basis of input by the customers
+		try:
+			assert_fact('activities', {'club':interest_value_1})
+		
+		except BaseException as e:
+			print('Your Interest does not satisfy the beverage Available in IIITD!' )
+		break
+	
+	else:
+		print("Invalid Choice Entered! Enter again! ")
+		print()
+	
+	
+ 
