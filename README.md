@@ -6,7 +6,60 @@ then if the user choose the proper food category based on his age, it recommends
 the desert and bevarege recommendation are based on the interst whcih user select, and there are not always boath of them at one recommendation.
 There are four main ruleset in the system which provide the recommendation list. the four ruleset are connected together and based on each other fire other rules and rulesetes. the Durable package made a big help to write rules simple and easy and use them properly.
 The list of questions that the system asks the user and an example of the system's answer will be in the  following.
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/85408877/227050128-7dbe06b9-2e95-473d-a20b-e238492d9f12.png">
-<img width="341" alt="image" src="https://user-images.githubusercontent.com/85408877/227050178-d119f2fd-f43f-468c-ab7f-20038b6a40c1.png">
+
+
+enter 1 if your age is under 10
+ enter 2 if your age is between 11- 18
+ enter 3 if your age is between 20-40
+ enter 4 if your age is greater than 40
+Enter your current age in the range of 1-4 2
+
+Choose the best interest that suits you! Enter the index of the choice. 
+
+
+Available Interests for food and dessert: 
+
+ 1. irani 
+ 2. kebbab 
+ 3. tradition 
+ 4. helathy food 
+ 5. vegan 
+ 6. international 
+ 7. fast food 
+ 8. sea food 
+ 9. kids food 
+ 
+
+Enter the index of the interest that suits you! 3
+
+
+Available Interests for choosing beverage and dessert s: 
+
+ 1. traditional music 
+ 2. hichhickes  
+ 3. football  
+ 4. design 
+ 5. fashion 
+ 6. beauty
+ 7. anime 
+ 8. Finance 
+ 9. Art 
+ 10. history
+
+Enter the index of the interest that suits you! 5
+
+
+Ana an example of system answer will be as following:
+Displaying the foods and the  Activities Club! 
+
+Fact: Choose appetizer -  salad
+Fact: Choose appetizer -  mushroom soup
+here 2
+Fact: Choose main food -  shishlik
+Fact: Choose main food -  koobideh
+Fact: Choose main food -  chenjeh
+Fact: Choose main food -  barg
+Fact: dessert Club musical :- roasted strawberry crumble
+
 
  
